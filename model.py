@@ -30,6 +30,16 @@ class PatchEmbedding(nn.Module):
         assert image_resolution % self.patch_size == 0, f"Image Size must be divisible by patch size, given image shape: {image_resolution}, patch_size: {self.patch_size}"
 
         x = self.patcher(x)
+        print(f"After Con2d layer x shape: {x.shape}") # torch.Size([1, 768, 14, 14])
         x = self.flatten(x)
-
+        print(f"After Flattening x shape: {x.shape}") # torch.Size([1, 768, 196])
         return x.permute(0, 2, 1) # [batch_size, P^2•C, N] -> [batch_size, N, P^2•C]
+
+
+if __name__ == "__main__":
+
+    patch = PatchEmbedding(3, 16, 768)
+    x = torch.randn((1, 3, 224, 224))
+
+    out = patch(x)
+    print(out.shape)
