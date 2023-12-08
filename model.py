@@ -129,7 +129,7 @@ class ViT(nn.Module):
         class_token = self.class_embedding.expand(batch_size, -1, -1)
         x = self.patch_embedding(x)
         x = torch.cat([class_token, x], dim=1)
-        x = self.position_embedding(x) + x
+        x = self.position_embedding + x
         x = self.embedding_dropout(x)
         x = self.transformer_encoder(x)
         x = self.classifier(x[:, 0])
@@ -138,7 +138,7 @@ class ViT(nn.Module):
 
 if __name__ == "__main__":
 
-    patch = PatchEmbedding(3, 16, 768)
+    patch = ViT()
     x = torch.randn((1, 3, 224, 224))
 
     out = patch(x)
