@@ -81,6 +81,23 @@ class MLPBlock(nn.Module):
         x = self.layer_norm(x)
         x = self.mlp(x)
         return x
+    
+class TransformerEncoderBlock(nn.Module):
+    """
+    Creates a Transformer Encoder Block
+    """
+    def __init__(self, embedding_dim=768, num_heads=12, mlp_size=3072, mlp_dropout=0.1, attn_dropout=0):
+        super().__init__()
+
+        self.msa_block = MultiheadSelfAttentionBlock(embedding_dim=embedding_dim, num_heads=num_heads, attn_dropout=attn_dropout)
+        self.mlp_block = MLPBlock(embedding_dim=embedding_dim, mlp_size=mlp_size, dropout=mlp_dropout)
+
+    def forward(self, x):
+
+        x = self.msa_block(x) + x
+        x = self.mlp_block(x) + x
+
+        return x
 
 if __name__ == "__main__":
 
