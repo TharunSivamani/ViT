@@ -60,6 +60,28 @@ class MultiheadSelfAttentionBlock(nn.Module):
         return attn_output
 
 
+class MLPBlock(nn.Module):
+    """
+    Creates a Layer Normalized MLP Block
+    """
+    def __init__(self, embedding_dim=768, mlp_size=3072, dropout=0.1):
+        super().__init__()
+
+        self.layer_norm = nn.LayerNorm(normalized_shape=embedding_dim)
+        self.mlp = nn.Sequential(
+            nn.Linear(in_features=embedding_dim, out_features=mlp_size),
+            nn.GELU(),
+            nn.Dropout(p=dropout),
+            nn.Linear(in_features=mlp_size, out_features=embedding_dim),
+            nn.Dropout(p=dropout),
+        )
+
+    def forward(self, x):
+
+        x = self.layer_norm(x)
+        x = self.mlp(x)
+        return x
+
 if __name__ == "__main__":
 
     patch = PatchEmbedding(3, 16, 768)
