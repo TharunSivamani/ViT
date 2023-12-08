@@ -36,6 +36,30 @@ class PatchEmbedding(nn.Module):
         return x.permute(0, 2, 1) # [batch_size, P^2•C, N] -> [batch_size, N, P^2•C]
 
 
+class MultiheadSelfAttentionBlock(nn.Module):
+    """
+    Creates a multi-head self-attention block 
+    """
+    def __init__(self, embedding_dim:int=768, num_heads:int=12, attn_dropout:float=0):
+        super().__init__()
+
+        self.layer_norm = nn.LayerNorm(normalized_shape=embedding_dim)
+        self.multihead_attn = nn.MultiheadAttention(embed_dim=embedding_dim,
+                                                    num_heads=num_heads,
+                                                    dropout=attn_dropout,
+                                                    batch_first=True) 
+        
+    def forward(self, x):
+        x = self.layer_norm(x)
+        print(f"After Layer-Norm x shape: {x.shape}")
+        attn_output, _ = self.multihead_attn(query=x, 
+                                             key=x, 
+                                             value=x,
+                                             need_weights=False)
+        print(f"Self-Attn shape: {attn_output.shape}")
+        return attn_output
+
+
 if __name__ == "__main__":
 
     patch = PatchEmbedding(3, 16, 768)
