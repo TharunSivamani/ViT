@@ -131,7 +131,7 @@ class ViT(nn.Module):
         mlp_size=3072,
         num_heads=12,
         attn_dropout=0,
-        ml_dropout=0.1,
+        mlp_dropout=0.1,
         embedding_dropout=0.1,
         num_classes=1000,
     ):
@@ -159,7 +159,7 @@ class ViT(nn.Module):
                     embedding_dim=embedding_dim,
                     num_heads=num_heads,
                     mlp_size=mlp_size,
-                    mlp_dropout=ml_dropout,
+                    mlp_dropout=mlp_dropout,
                 )
                 for _ in range(num_transformer_layer)
             ]
