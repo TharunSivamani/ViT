@@ -1,12 +1,10 @@
 # Vision Transformer (ViT)
 
+This repository contains an implementation of the Vision Transformer (ViT) architecture for image classification tasks. ViT represents a departure from traditional convolutional neural networks (CNNs) by utilizing a transformer architecture originally designed for natural language processing.
+
 # Architecture
 
 ![vit](https://viso.ai/wp-content/uploads/2021/09/vision-transformer-vit.png)
-
-## Overview
-
-This repository contains an implementation of the Vision Transformer (ViT) architecture for image classification tasks. ViT represents a departure from traditional convolutional neural networks (CNNs) by utilizing a transformer architecture originally designed for natural language processing.
 
 ## Vision Transformer Architecture
 
